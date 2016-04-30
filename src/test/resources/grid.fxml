@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import co.j6mes.ui.gridnition.MultiObjectPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.shape.Rectangle?>
+<StackPane fx:id="vbox" styleClass="app" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.j6mes.ui.gridnition.test.UITestController">
+    <MultiObjectPane fx:id="pane">
+
+    </MultiObjectPane>
+
+</StackPane>
