@@ -2,11 +2,11 @@
 
 <?import javafx.scene.layout.*?>
 
-<?import co.j6mes.ui.gridnition.MultiObjectPane?>
+<?import co.j6mes.ui.fluidgrid.MultiObjectPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.control.ScrollPane?>
-<StackPane fx:id="vbox" styleClass="app" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.j6mes.ui.gridnition.tiled.UITestController">
+<StackPane fx:id="vbox" styleClass="app" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.j6mes.ui.fluidgrid.tiled.UITestController">
     <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
         <TilePane fx:id="pane">
 

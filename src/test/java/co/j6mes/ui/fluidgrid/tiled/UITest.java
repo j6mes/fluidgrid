@@ -1,4 +1,4 @@
-package co.j6mes.ui.gridnition.tiled;
+package co.j6mes.ui.fluidgrid.tiled;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

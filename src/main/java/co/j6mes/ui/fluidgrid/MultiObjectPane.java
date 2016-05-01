@@ -1,11 +1,9 @@
-package co.j6mes.ui.gridnition;
+package co.j6mes.ui.fluidgrid;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
 import java.util.List;

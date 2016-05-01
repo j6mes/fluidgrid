@@ -1,4 +1,4 @@
-package co.j6mes.ui.gridnition.example;
+package co.j6mes.ui.fluidgrid.example;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
