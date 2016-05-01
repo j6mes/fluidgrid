@@ -16,6 +16,9 @@ public class UITest extends Application {
 
         Scene scene = new Scene(root, 300, 275);
 
+
+        scene.getStylesheets().add("example.css");
+
         stage.setTitle("Gridnition Example");
         stage.setScene(scene);
         stage.show();

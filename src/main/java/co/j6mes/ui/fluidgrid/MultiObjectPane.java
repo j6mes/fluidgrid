@@ -1,19 +1,23 @@
 package co.j6mes.ui.fluidgrid;
 
+import co.j6mes.ui.fluidgrid.extension.Extension;
+import co.j6mes.ui.fluidgrid.extension.Selection;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by james on 30/04/2016.
- */
 public class MultiObjectPane extends VBox {
 
     private List<Region> objects = new ArrayList<>();
+    private List<Extension> extensions = new ArrayList<>();
 
     private int transitionsize = 340;
 
@@ -25,12 +29,99 @@ public class MultiObjectPane extends VBox {
     public synchronized void addObject(Region object) {
         objects.add(object);
         layoutChildren();
+        registerObject(object);
     }
 
     public synchronized void addObject(ImageView object) {
-        objects.add(new Pane(object));
+        Pane p = new Pane(object);
+        registerObject(p);
+
+
+        objects.add(p);
         layoutChildren();
+        registerObject(object);
     }
+
+    private void registerObject(Node object) {
+        for(Extension extension : extensions) {
+            extension.register(object);
+        }
+
+        object.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+            @Override
+            public void handle(ContextMenuEvent event) {
+                for(Extension extension : extensions) {
+                    extension.handleContextMenu(event);
+                }
+            }
+        });
+
+
+        object.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                for(Extension extension : extensions) {
+                    extension.handleDragDetected(event);
+                }
+            }
+        });
+
+        object.setOnDragDone(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                for(Extension extension : extensions) {
+                    extension.handleDragDone(event);
+                }
+            }
+        });
+
+        object.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                for(Extension extension : extensions) {
+                    extension.handleDragDropped(event);
+                }
+            }
+        });
+
+        object.setOnDragEntered(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                for(Extension extension : extensions) {
+                    extension.handleDragEntered(event);
+                }
+            }
+        });
+
+        object.setOnDragExited(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                for(Extension extension : extensions) {
+                    extension.handleDragExited(event);
+                }
+            }
+        });
+
+        object.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                for(Extension extension : extensions) {
+                    extension.handleDragOver(event);
+                }
+            }
+        });
+
+        object.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                for(Extension extension : extensions) {
+                    extension.handleMouseClicked(event);
+                }
+            }
+        });
+    }
+
+
 
     private void redraw() {
         System.out.println("Redraw");
@@ -38,9 +129,6 @@ public class MultiObjectPane extends VBox {
         HBox currHBox = new HBox();
 
         for(Region obj : objects) {
-
-
-
             currHBox.getChildren().add(obj);
             currHBox.setAlignment(Pos.CENTER);
             done++;
@@ -96,4 +184,7 @@ public class MultiObjectPane extends VBox {
 
     }
 
+    public void registerExtension(Extension extension) {
+        extensions.add(extension);
+    }
 }

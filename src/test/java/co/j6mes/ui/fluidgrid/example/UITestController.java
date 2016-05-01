@@ -1,6 +1,7 @@
 package co.j6mes.ui.fluidgrid.example;
 
 import co.j6mes.ui.fluidgrid.MultiObjectPane;
+import co.j6mes.ui.fluidgrid.extension.Selection;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -15,6 +16,10 @@ public class UITestController {
 
     @FXML
     public void initialize() {
+        Selection selection = new Selection();
+        pane.registerExtension(selection);
+
+
         System.out.println("Initialize UI");
 
         for (int i = 0; i<8; i++) {
@@ -25,7 +30,10 @@ public class UITestController {
         for (int i = 0; i < 5; i++) {
             ImageView imgView = new ImageView(img);
 
+
+
             imgView.setPreserveRatio(true);
+
             pane.addObject(imgView);
         }
 
