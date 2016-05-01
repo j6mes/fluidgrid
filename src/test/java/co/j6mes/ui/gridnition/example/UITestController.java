@@ -1,13 +1,10 @@
-package co.j6mes.ui.gridnition.test;
+package co.j6mes.ui.gridnition.example;
 
 import co.j6mes.ui.gridnition.MultiObjectPane;
-import com.sun.javafx.scene.control.skin.LabeledText;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * Created by james on 30/04/2016.
@@ -22,6 +19,14 @@ public class UITestController {
 
         for (int i = 0; i<8; i++) {
             pane.addObject(new Label("Box "+ i));
+        }
+
+        Image img = new Image("test.png");
+        for (int i = 0; i < 5; i++) {
+            ImageView imgView = new ImageView(img);
+
+            imgView.setPreserveRatio(true);
+            pane.addObject(imgView);
         }
 
     }

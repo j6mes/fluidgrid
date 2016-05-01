@@ -1,4 +1,4 @@
-package co.j6mes.ui.gridnition.test;
+package co.j6mes.ui.gridnition.tiled;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +12,7 @@ public class UITest extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Parent root = FXMLLoader.load(this.getClass().getClassLoader().getResource("grid.fxml"));
+        Parent root = FXMLLoader.load(this.getClass().getClassLoader().getResource("grid2.fxml"));
 
         Scene scene = new Scene(root, 300, 275);
 

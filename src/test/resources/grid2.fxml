@@ -6,11 +6,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.control.ScrollPane?>
-<StackPane fx:id="vbox" styleClass="app" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.j6mes.ui.gridnition.example.UITestController">
+<StackPane fx:id="vbox" styleClass="app" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.j6mes.ui.gridnition.tiled.UITestController">
     <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
-        <MultiObjectPane fx:id="pane">
+        <TilePane fx:id="pane">
 
-        </MultiObjectPane>
+        </TilePane>
 
     </ScrollPane>
 
