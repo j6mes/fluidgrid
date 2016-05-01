@@ -16,10 +16,6 @@ public class MultiObjectPane extends VBox {
     private List<Region> objects = new ArrayList<>();
 
     private int transitionsize = 340;
-    private int grid1size = transitionsize * 1;
-    private int grid2size = transitionsize * 2;
-    private int grid3size = transitionsize * 3;
-    private int grid4size = transitionsize * 5;
 
     public MultiObjectPane() {
         this.setFillWidth(true);
@@ -66,16 +62,12 @@ public class MultiObjectPane extends VBox {
 
 
     private int getNumPerRow() {
-        if(this.getWidth() < grid1size) {
-            return 1;
-        } else if (this.getWidth() < grid2size) {
-            return 2;
-        } else if (this.getWidth() < grid3size) {
-            return 3;
-        } else if (this.getWidth() < grid4size) {
-            return 4;
+        for (int i = 1; i<10; i++) {
+            if(this.getWidth() < i*transitionsize) {
+                return i;
+            }
         }
-        return 5;
+        return 10;
     }
 
     @Override
