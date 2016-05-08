@@ -1,6 +1,7 @@
 package co.j6mes.ui.fluidgrid;
 
 import co.j6mes.ui.fluidgrid.extension.Extension;
+import co.j6mes.ui.fluidgrid.extension.ExtensionManager;
 import co.j6mes.ui.fluidgrid.extension.Selection;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -14,7 +15,7 @@ import javafx.scene.layout.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultiObjectPane extends VBox {
+public class MultiObjectPane extends VBox implements ExtensionManager {
 
     private List<Region> objects = new ArrayList<>();
     private List<Extension> extensions = new ArrayList<>();
@@ -186,5 +187,11 @@ public class MultiObjectPane extends VBox {
 
     public void registerExtension(Extension extension) {
         extensions.add(extension);
+        extension.registerHost(this);
+    }
+
+    @Override
+    public List<Region> getObjects() {
+        return objects;
     }
 }

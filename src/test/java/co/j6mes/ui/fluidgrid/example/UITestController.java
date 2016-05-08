@@ -1,6 +1,7 @@
 package co.j6mes.ui.fluidgrid.example;
 
 import co.j6mes.ui.fluidgrid.MultiObjectPane;
+import co.j6mes.ui.fluidgrid.extension.DragAndDrop;
 import co.j6mes.ui.fluidgrid.extension.Selection;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -19,6 +20,7 @@ public class UITestController {
         Selection selection = new Selection();
         pane.registerExtension(selection);
 
+        pane.registerExtension(new DragAndDrop());
 
         System.out.println("Initialize UI");
 

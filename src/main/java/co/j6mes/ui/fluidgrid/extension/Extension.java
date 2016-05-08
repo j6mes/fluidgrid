@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
  * Created by james on 01/05/2016.
  */
 public interface Extension {
+    void registerHost (ExtensionManager exm);
 
     void register(Node object);
     void handleContextMenu(ContextMenuEvent event);

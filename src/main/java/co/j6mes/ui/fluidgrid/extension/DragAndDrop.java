@@ -5,10 +5,23 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by james on 01/05/2016.
  */
 public class DragAndDrop implements Extension {
+
+    List<Node> nodes = new ArrayList<Node>();
+
+    ExtensionManager host;
+
+    @Override
+    public void registerHost(ExtensionManager exm) {
+        this.host = exm;
+    }
+
     @Override
     public void register(Node object) {
 
@@ -21,6 +34,16 @@ public class DragAndDrop implements Extension {
 
     @Override
     public void handleDragDetected(MouseEvent event) {
+        System.out.println("Drag");
+        System.out.println(event.getSource());
+
+        if(host.getObjects().size()<2) {
+            System.out.println("Only 1 component. No need for drag.");
+            return;
+        }
+
+        ((Node)event.getSource()).startFullDrag();
+        //displayPreview(pf,event,l);
 
     }
 

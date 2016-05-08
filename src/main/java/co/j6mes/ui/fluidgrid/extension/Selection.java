@@ -14,6 +14,14 @@ import java.util.List;
 public class Selection implements Extension {
     Node selected = null;
 
+    ExtensionManager host;
+
+    @Override
+    public void registerHost(ExtensionManager exm) {
+        this.host = exm;
+    }
+
+
     @Override
     public void register(Node object) {
 
