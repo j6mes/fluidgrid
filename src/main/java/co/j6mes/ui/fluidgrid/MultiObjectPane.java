@@ -41,7 +41,6 @@ public class MultiObjectPane extends VBox implements ExtensionManager {
 
         objects.add(p);
         layoutChildren();
-        registerObject(object);
     }
 
     private void registerObject(Node object) {
@@ -203,5 +202,10 @@ public class MultiObjectPane extends VBox implements ExtensionManager {
     @Override
     public List<Region> getObjects() {
         return objects;
+    }
+
+    @Override
+    public void update() {
+        redraw();
     }
 }

@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface ExtensionManager {
     List<Region> getObjects();
+
+    void update();
 }

@@ -88,18 +88,38 @@ public class DragAndDrop implements Extension {
 
     @Override
     public void handleMouseDragReleased(Node endRegion, MouseDragEvent event) {
+        System.out.println("Handling mouse drop");
+
         if(!event.isConsumed()) {
             event.consume();
         } else {
             return;
         }
 
+        System.out.println("Not cosumed");
+
 
      //   int indexOfDraggingNode = host.getObjects().indexOf(event.get());
 
 
-        System.out.println("Source " +event.getGestureSource());
-        System.out.println("Target" + endRegion);
+        Region source = (Region) event.getGestureSource();
+        Region target = (Region) endRegion;
+
+
+       // int targetIdx = host.getObjects().indexOf(target);
+
+        if(host.getObjects().indexOf(target) > host.getObjects().indexOf(source)) {
+
+            host.getObjects().remove(source);
+            host.getObjects().add(host.getObjects().indexOf(target)+1, source);
+        } else {
+
+            host.getObjects().remove(source);
+            host.getObjects().add(host.getObjects().indexOf(target), source);
+        }
+
+
+        host.update();
 
     }
 }
