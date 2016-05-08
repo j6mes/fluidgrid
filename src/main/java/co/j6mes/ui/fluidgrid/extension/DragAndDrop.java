@@ -48,6 +48,7 @@ public class DragAndDrop implements Extension {
         }
 
         ((Node)event.getSource()).startFullDrag();
+        new PreviewComponent((Region) event.getSource());
         //displayPreview(pf,event,l);
 
     }
