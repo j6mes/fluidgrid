@@ -3,7 +3,9 @@ package co.j6mes.ui.fluidgrid.extension;
 import javafx.scene.Node;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +79,11 @@ public class Selection implements Extension {
 
     @Override
     public void handleDragDone(DragEvent event) {
+
+    }
+
+    @Override
+    public void handleMouseDragReleased(Node endRegion, MouseDragEvent event) {
 
     }
 

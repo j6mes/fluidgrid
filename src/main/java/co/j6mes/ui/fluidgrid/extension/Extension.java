@@ -3,7 +3,9 @@ package co.j6mes.ui.fluidgrid.extension;
 import javafx.scene.Node;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 
 /**
  * Created by james on 01/05/2016.
@@ -27,4 +29,6 @@ public interface Extension {
     void handleDragDropped(DragEvent event);
 
     void handleDragDone(DragEvent event);
+
+    void handleMouseDragReleased(Node endRegion, MouseDragEvent event);
 }

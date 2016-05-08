@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
@@ -117,6 +118,15 @@ public class MultiObjectPane extends VBox implements ExtensionManager {
             public void handle(MouseEvent event) {
                 for(Extension extension : extensions) {
                     extension.handleMouseClicked(event);
+                }
+            }
+        });
+
+        object.setOnMouseDragReleased(new EventHandler<MouseDragEvent>() {
+            @Override
+            public void handle(MouseDragEvent event) {
+                for (Extension extension : extensions) {
+                    extension.handleMouseDragReleased(object, event);
                 }
             }
         });
