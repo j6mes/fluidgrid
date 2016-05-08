@@ -11,4 +11,6 @@ public interface ExtensionManager {
     List<Region> getObjects();
 
     void update();
+
+    Region getRegion();
 }

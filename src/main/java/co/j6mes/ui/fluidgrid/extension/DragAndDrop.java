@@ -1,5 +1,7 @@
 package co.j6mes.ui.fluidgrid.extension;
 
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.DragEvent;
@@ -16,7 +18,7 @@ import java.util.List;
 public class DragAndDrop implements Extension {
 
     List<Node> nodes = new ArrayList<Node>();
-
+    PreviewComponent preview = null;
     ExtensionManager host;
 
 
@@ -25,6 +27,24 @@ public class DragAndDrop implements Extension {
     @Override
     public void registerHost(ExtensionManager exm) {
         this.host = exm;
+
+        this.host.getRegion().setOnMouseDragExited(new EventHandler<MouseDragEvent>() {
+            @Override
+            public void handle(MouseDragEvent event) {
+                if(preview !=null) {
+                    preview.hide();
+                }
+            }
+        });
+
+        this.host.getRegion().setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
+            @Override
+            public void handle(MouseDragEvent event) {
+                if(preview !=null) {
+                    preview.show();
+                }
+            }
+        });
     }
 
     @Override
@@ -48,8 +68,16 @@ public class DragAndDrop implements Extension {
         }
 
         ((Node)event.getSource()).startFullDrag();
-        new PreviewComponent((Region) event.getSource());
-        //displayPreview(pf,event,l);
+
+        if(preview!=null) {
+            preview.close();
+            preview = null;
+        }
+
+        preview = new PreviewComponent((Region) event.getSource());
+
+
+
 
     }
 
@@ -70,6 +98,18 @@ public class DragAndDrop implements Extension {
 
     @Override
     public void handleDragEntered(DragEvent event) {
+        if(preview != null) {
+            preview.show();
+        }
+    }
+
+    @Override
+    public void handleMouseDragExited(MouseDragEvent event) {
+
+    }
+
+    @Override
+    public void handleMouseDragEntered(MouseDragEvent event) {
 
     }
 
@@ -84,11 +124,18 @@ public class DragAndDrop implements Extension {
 
     @Override
     public void handleDragDone(DragEvent event) {
-
+        System.out.println("Drag done");
     }
 
     @Override
     public void handleMouseDragReleased(Node endRegion, MouseDragEvent event) {
+        if(endRegion.equals(event.getGestureSource())) {
+            if(preview != null) {
+                preview.close();
+            }
+            return;
+        }
+
         if(!event.isConsumed()) {
             event.consume();
         } else {
@@ -108,8 +155,26 @@ public class DragAndDrop implements Extension {
             host.getObjects().add(host.getObjects().indexOf(target), source);
         }
 
+        if(preview!=null) {
+            preview.close();
+            preview = null;
+        }
 
         host.update();
 
+    }
+
+    @Override
+    public void handleMouseDragged(MouseEvent event) {
+        if(preview!=null) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    preview.setX(event.getScreenX()+10);
+                    preview.setY(event.getScreenY()+10);
+                }
+            });
+
+        }
     }
 }

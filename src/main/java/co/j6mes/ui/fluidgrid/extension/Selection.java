@@ -73,6 +73,16 @@ public class Selection implements Extension {
     }
 
     @Override
+    public void handleMouseDragExited(MouseDragEvent event) {
+
+    }
+
+    @Override
+    public void handleMouseDragEntered(MouseDragEvent event) {
+
+    }
+
+    @Override
     public void handleDragDropped(DragEvent event) {
 
     }
@@ -84,6 +94,11 @@ public class Selection implements Extension {
 
     @Override
     public void handleMouseDragReleased(Node endRegion, MouseDragEvent event) {
+
+    }
+
+    @Override
+    public void handleMouseDragged(MouseEvent event) {
 
     }
 

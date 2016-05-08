@@ -103,6 +103,24 @@ public class MultiObjectPane extends VBox implements ExtensionManager {
             }
         });
 
+        object.setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
+            @Override
+            public void handle(MouseDragEvent event) {
+                for(Extension extension : extensions) {
+                    extension.handleMouseDragEntered(event);
+                }
+            }
+        });
+
+        object.setOnMouseDragExited(new EventHandler<MouseDragEvent>() {
+            @Override
+            public void handle(MouseDragEvent event) {
+                for(Extension extension : extensions) {
+                    extension.handleMouseDragExited(event);
+                }
+            }
+        });
+
         object.setOnDragOver(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
@@ -197,6 +215,15 @@ public class MultiObjectPane extends VBox implements ExtensionManager {
     public void registerExtension(Extension extension) {
         extensions.add(extension);
         extension.registerHost(this);
+
+        this.onMouseDraggedProperty().setValue(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                for(Extension e : extensions) {
+                    e.handleMouseDragged(event);
+                }
+            }
+        });
     }
 
     @Override
@@ -207,5 +234,10 @@ public class MultiObjectPane extends VBox implements ExtensionManager {
     @Override
     public void update() {
         redraw();
+    }
+
+    @Override
+    public Region getRegion() {
+        return this;
     }
 }

@@ -26,9 +26,15 @@ public interface Extension {
 
     void handleDragEntered(DragEvent event);
 
+    void handleMouseDragExited(MouseDragEvent event);
+
+    void handleMouseDragEntered(MouseDragEvent event);
+
     void handleDragDropped(DragEvent event);
 
     void handleDragDone(DragEvent event);
 
     void handleMouseDragReleased(Node endRegion, MouseDragEvent event);
+
+    void handleMouseDragged(MouseEvent event);
 }

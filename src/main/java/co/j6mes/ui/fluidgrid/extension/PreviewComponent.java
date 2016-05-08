@@ -29,9 +29,12 @@ class PreviewComponent extends Stage {
         g.getChildren().add(n);
         this.initStyle(StageStyle.UNDECORATED);
         this.setScene(newScene);
+        this.setOpacity(0.5);
         this.show();
+    }
 
-
+    public void close() {
+        this.hide();
     }
 
 }
