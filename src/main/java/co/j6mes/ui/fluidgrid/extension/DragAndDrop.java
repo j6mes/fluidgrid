@@ -23,6 +23,7 @@ public class DragAndDrop implements Extension {
     ExtensionManager host;
 
     Node sourceDD = null;
+    Node overDD = null;
 
 
     @Override
@@ -39,6 +40,10 @@ public class DragAndDrop implements Extension {
                 if(sourceDD != null) {
                     sourceDD.getStyleClass().removeAll("drag-launch");
                 }
+
+                if(overDD != null) {
+                    overDD.getStyleClass().removeAll("drag-over");
+                }
             }
         });
 
@@ -53,6 +58,9 @@ public class DragAndDrop implements Extension {
                     sourceDD.getStyleClass().add("drag-launch");
                 }
 
+                if(overDD != null) {
+                    overDD.getStyleClass().add("drag-over");
+                }
             }
         });
 
@@ -69,6 +77,10 @@ public class DragAndDrop implements Extension {
             public void handle(MouseDragEvent event) {
                 if(sourceDD != null) {
                     sourceDD.getStyleClass().removeAll("drag-launch");
+                }
+
+                if(overDD != null) {
+                    overDD.getStyleClass().removeAll("drag-over");
                 }
             }
         });
@@ -130,11 +142,16 @@ public class DragAndDrop implements Extension {
 
     @Override
     public void handleMouseDragExited(MouseDragEvent event) {
+
     }
 
     @Override
     public void handleMouseDragEntered(MouseDragEvent event) {
-
+        if(overDD != null) {
+            overDD.getStyleClass().removeAll("drag-over");
+        }
+        overDD = ((Node)event.getSource());
+        ((Node)event.getSource()).getStyleClass().add("drag-over");
     }
 
     @Override

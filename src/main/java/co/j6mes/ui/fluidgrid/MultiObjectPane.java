@@ -227,7 +227,6 @@ public class MultiObjectPane extends VBox implements ExtensionManager,MultiEvent
         object.setOnDragDropped(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
-                System.out.println("D3");
                 for(Extension extension : extensions) {
                     extension.handleDragDropped(event);
                 }
@@ -237,7 +236,6 @@ public class MultiObjectPane extends VBox implements ExtensionManager,MultiEvent
         object.setOnDragEntered(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
-                System.out.println("D1");
                 for(Extension extension : extensions) {
                     extension.handleDragEntered(event);
                 }
@@ -247,7 +245,6 @@ public class MultiObjectPane extends VBox implements ExtensionManager,MultiEvent
         object.setOnDragExited(new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
-                System.out.println("D2");
                 for(Extension extension : extensions) {
                     extension.handleDragExited(event);
                 }
@@ -257,7 +254,6 @@ public class MultiObjectPane extends VBox implements ExtensionManager,MultiEvent
         object.setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
             @Override
             public void handle(MouseDragEvent event) {
-                System.out.println("D5");
                 for(Extension extension : extensions) {
                     extension.handleMouseDragEntered(event);
                 }
@@ -267,7 +263,6 @@ public class MultiObjectPane extends VBox implements ExtensionManager,MultiEvent
         object.setOnMouseDragExited(new EventHandler<MouseDragEvent>() {
             @Override
             public void handle(MouseDragEvent event) {
-                System.out.println("D7");
                 for(Extension extension : extensions) {
                     extension.handleMouseDragExited(event);
                 }
