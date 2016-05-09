@@ -1,5 +1,6 @@
 package co.j6mes.ui.fluidgrid.extension;
 
+import co.j6mes.ui.fluidgrid.MultiEventHandle;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -25,10 +26,10 @@ public class DragAndDrop implements Extension {
 
 
     @Override
-    public void registerHost(ExtensionManager exm) {
+    public void registerHost(ExtensionManager exm, MultiEventHandle events) {
         this.host = exm;
 
-        this.host.getRegion().setOnMouseDragExited(new EventHandler<MouseDragEvent>() {
+        events.addHandleMouseDragExited(new EventHandler<MouseDragEvent>() {
             @Override
             public void handle(MouseDragEvent event) {
                 if(preview !=null) {
@@ -37,12 +38,20 @@ public class DragAndDrop implements Extension {
             }
         });
 
-        this.host.getRegion().setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
+        events.addHandleMouseDragEntered(new EventHandler<MouseDragEvent>() {
             @Override
             public void handle(MouseDragEvent event) {
                 if(preview !=null) {
                     preview.show();
                 }
+            }
+        });
+
+        final Extension tthis = this;
+        events.addHandleMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                tthis.handleMouseDragged(event);
             }
         });
     }
@@ -176,5 +185,15 @@ public class DragAndDrop implements Extension {
             });
 
         }
+    }
+
+    @Override
+    public void handleMouseReleased(MouseEvent event) {
+
+    }
+
+    @Override
+    public void handleMousePressed(MouseEvent event) {
+
     }
 }

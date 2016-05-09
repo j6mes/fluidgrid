@@ -1,5 +1,6 @@
 package co.j6mes.ui.fluidgrid.extension;
 
+import co.j6mes.ui.fluidgrid.MultiEventHandle;
 import javafx.scene.Node;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.DragEvent;
@@ -19,10 +20,9 @@ public class Selection implements Extension {
     ExtensionManager host;
 
     @Override
-    public void registerHost(ExtensionManager exm) {
+    public void registerHost(ExtensionManager exm, MultiEventHandle events) {
         this.host = exm;
     }
-
 
     @Override
     public void register(Node object) {
@@ -99,6 +99,16 @@ public class Selection implements Extension {
 
     @Override
     public void handleMouseDragged(MouseEvent event) {
+
+    }
+
+    @Override
+    public void handleMouseReleased(MouseEvent event) {
+
+    }
+
+    @Override
+    public void handleMousePressed(MouseEvent event) {
 
     }
 

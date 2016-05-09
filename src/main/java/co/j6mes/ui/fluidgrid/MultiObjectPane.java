@@ -16,7 +16,7 @@ import javafx.scene.layout.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MultiObjectPane extends VBox implements ExtensionManager {
+public class MultiObjectPane extends VBox implements ExtensionManager,MultiEventHandle, Extension {
 
     private List<Region> objects = new ArrayList<>();
     private List<Extension> extensions = new ArrayList<>();
@@ -26,24 +26,128 @@ public class MultiObjectPane extends VBox implements ExtensionManager {
     public MultiObjectPane() {
         this.setFillWidth(true);
         this.setCenterShape(true);
+        this.registerHost(this,this);
     }
 
     public synchronized void addObject(Region object) {
         objects.add(object);
         layoutChildren();
-        registerObject(object);
+        register(object);
     }
 
     public synchronized void addObject(ImageView object) {
         Pane p = new Pane(object);
-        registerObject(p);
-
+        register(p);
 
         objects.add(p);
         layoutChildren();
     }
 
-    private void registerObject(Node object) {
+    @Override
+    public void registerHost(ExtensionManager exm, MultiEventHandle events) {
+        final MultiObjectPane tthis = this;
+        this.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+            @Override
+            public void handle(ContextMenuEvent event) {
+                handleContextMenu(event);
+            }
+        });
+
+        this.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                handleDragDetected(event);
+            }
+        });
+
+        this.setOnDragDone(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                handleDragDone(event);
+            }
+        });
+
+        this.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                handleDragDropped(event);
+            }
+        });
+
+        this.setOnDragEntered(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                handleDragEntered(event);
+            }
+        });
+
+        this.setOnDragExited(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                handleDragExited(event);
+            }
+        });
+
+        this.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                handleDragOver(event);
+            }
+        });
+
+
+        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                handleMouseClicked(event);
+            }
+        });
+
+        this.setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
+            @Override
+            public void handle(MouseDragEvent event) {
+                handleMouseDragEntered(event);
+            }
+        });
+
+        this.setOnMouseDragExited(new EventHandler<MouseDragEvent>() {
+            @Override
+            public void handle(MouseDragEvent event) {
+                handleMouseDragExited(event);
+            }
+        });
+
+        this.setOnMouseDragReleased(new EventHandler<MouseDragEvent>() {
+            @Override
+            public void handle(MouseDragEvent event) {
+                handleMouseDragReleased(tthis,event);
+            }
+        });
+
+        this.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                handleMousePressed(event);
+            }
+        });
+
+        this.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                handleMouseReleased(event);
+            }
+        });
+
+        this.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                handleMouseDragged(event);
+            }
+        });
+    }
+
+    @Override
+    public void register(Node object) {
         for(Extension extension : extensions) {
             extension.register(object);
         }
@@ -147,7 +251,29 @@ public class MultiObjectPane extends VBox implements ExtensionManager {
                 }
             }
         });
+
+        object.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                for (Extension extension : extensions) {
+                    extension.handleMousePressed(event);
+                }
+            }
+        });
+
+
+        object.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                for (Extension extension : extensions) {
+                    extension.handleMouseReleased(event);
+                }
+            }
+        });
+
     }
+
+
 
 
 
@@ -214,16 +340,7 @@ public class MultiObjectPane extends VBox implements ExtensionManager {
 
     public void registerExtension(Extension extension) {
         extensions.add(extension);
-        extension.registerHost(this);
-
-        this.onMouseDraggedProperty().setValue(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                for(Extension e : extensions) {
-                    e.handleMouseDragged(event);
-                }
-            }
-        });
+        extension.registerHost(this,this);
     }
 
     @Override
@@ -236,8 +353,188 @@ public class MultiObjectPane extends VBox implements ExtensionManager {
         redraw();
     }
 
+    private List<EventHandler<ContextMenuEvent>> contextMenuEvents = new ArrayList<>();
+
     @Override
-    public Region getRegion() {
-        return this;
+    public void addHandleContextMenu(EventHandler<ContextMenuEvent> event) {
+        contextMenuEvents.add(event);
+    }
+
+    private List<EventHandler<MouseEvent>> dragDetectedEvents = new ArrayList<>();
+    @Override
+    public void addHandleDragDetected(EventHandler<MouseEvent> event) {
+        dragDetectedEvents.add(event);
+    }
+
+    private List<EventHandler<DragEvent>> dragOverEvents = new ArrayList<>();
+    @Override
+    public void addHandleDragOver(EventHandler<DragEvent> event) {
+        dragOverEvents.add(event);
+    }
+
+    private List<EventHandler<MouseEvent>> mouseClickedEvents = new ArrayList<>();
+    @Override
+    public void addHandleMouseClicked(EventHandler<MouseEvent> event) {
+        mouseClickedEvents.add(event);
+    }
+
+    private List<EventHandler<DragEvent>> dragExitedEvents = new ArrayList<>();
+    @Override
+    public void addHandleDragExited(EventHandler<DragEvent> event) {
+        dragExitedEvents.add(event);
+    }
+
+    private List<EventHandler<DragEvent>> dragEnteredEvents = new ArrayList<>();
+    @Override
+    public void addHandleDragEntered(EventHandler<DragEvent> event) {
+        dragEnteredEvents.add(event);
+    }
+
+    private List<EventHandler<MouseDragEvent>> dragMouseExitedEvents = new ArrayList<>();
+    @Override
+    public void addHandleMouseDragExited(EventHandler<MouseDragEvent> event) {
+        dragMouseExitedEvents.add(event);
+    }
+
+    private List<EventHandler<MouseDragEvent>> dragMouseEnteredEvents = new ArrayList<>();
+    @Override
+    public void addHandleMouseDragEntered(EventHandler<MouseDragEvent> event) {
+        dragMouseEnteredEvents.add(event);
+    }
+
+    private List<EventHandler<DragEvent>> dragDroppedEvents = new ArrayList<>();
+    @Override
+    public void addHandleDragDropped(EventHandler<DragEvent> event) {
+        dragDroppedEvents.add(event);
+    }
+
+    private List<EventHandler<DragEvent>> dragDoneEvents = new ArrayList<>();
+    @Override
+    public void addHandleDragDone(EventHandler<DragEvent> event) {
+        dragDoneEvents.add(event);
+    }
+
+    private List<EventHandler<MouseDragEvent>> mouseDragReleasedEvents = new ArrayList<>();
+    @Override
+    public void addHandleMouseDragReleased(EventHandler<MouseDragEvent> event) {
+        mouseDragReleasedEvents.add(event);
+    }
+
+    private List<EventHandler<MouseEvent>> mouseDraggedEvents = new ArrayList<>();
+    @Override
+    public void addHandleMouseDragged(EventHandler<MouseEvent> event) {
+        System.out.println("Register mouse drag");
+        mouseDraggedEvents.add(event);
+    }
+
+    private List<EventHandler<MouseEvent>> mouseReleasedEvents = new ArrayList<>();
+    @Override
+    public void addHandleMouseReleased(EventHandler<MouseEvent> event) {
+        mouseReleasedEvents.add(event);
+    }
+
+    private List<EventHandler<MouseEvent>> mousePressedEvents = new ArrayList<>();
+    @Override
+    public void addHandleMousePressed(EventHandler<MouseEvent> event) {
+        mousePressedEvents.add(event);
+    }
+
+
+    @Override
+    public void handleContextMenu(ContextMenuEvent event) {
+        for (EventHandler<ContextMenuEvent> h : contextMenuEvents) {
+            h.handle(event);
+        }
+    }
+
+    @Override
+    public void handleDragDetected(MouseEvent event) {
+        for (EventHandler<MouseEvent> h : dragDetectedEvents) {
+            h.handle(event);
+        }
+    }
+
+    @Override
+    public void handleDragOver(DragEvent event) {
+        for (EventHandler<DragEvent> h : dragOverEvents) {
+            h.handle(event);
+        }
+    }
+
+    @Override
+    public void handleMouseClicked(MouseEvent event) {
+        for (EventHandler<MouseEvent> h : mouseClickedEvents) {
+            h.handle(event);
+        }
+    }
+
+    @Override
+    public void handleDragExited(DragEvent event) {
+        for (EventHandler<DragEvent> h : dragExitedEvents) {
+            h.handle(event);
+        }
+    }
+
+    @Override
+    public void handleDragEntered(DragEvent event) {
+        for (EventHandler<DragEvent> h : dragEnteredEvents) {
+            h.handle(event);
+        }
+    }
+
+    @Override
+    public void handleMouseDragExited(MouseDragEvent event) {
+        for (EventHandler<MouseDragEvent> h : dragMouseExitedEvents) {
+            h.handle(event);
+        }
+    }
+
+    @Override
+    public void handleMouseDragEntered(MouseDragEvent event) {
+        for (EventHandler<MouseDragEvent> h : dragMouseEnteredEvents) {
+            h.handle(event);
+        }
+    }
+
+    @Override
+    public void handleDragDropped(DragEvent event) {
+        for (EventHandler<DragEvent> h : dragDroppedEvents) {
+            h.handle(event);
+        }
+    }
+
+    @Override
+    public void handleDragDone(DragEvent event) {
+        for (EventHandler<DragEvent> h : dragDoneEvents) {
+            h.handle(event);
+        }
+    }
+
+    @Override
+    public void handleMouseDragReleased(Node endRegion, MouseDragEvent event) {
+        for (EventHandler<MouseDragEvent> h : mouseDragReleasedEvents) {
+            h.handle(event);
+        }
+    }
+
+    @Override
+    public void handleMouseDragged(MouseEvent event) {
+        for (EventHandler<MouseEvent> h : mouseDraggedEvents) {
+            h.handle(event);
+        }
+    }
+
+    @Override
+    public void handleMouseReleased(MouseEvent event) {
+        for (EventHandler<MouseEvent> h : mouseReleasedEvents) {
+            h.handle(event);
+        }
+    }
+
+    @Override
+    public void handleMousePressed(MouseEvent event) {
+        for (EventHandler<MouseEvent> h : mousePressedEvents) {
+            h.handle(event);
+        }
     }
 }
