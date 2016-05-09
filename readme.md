@@ -12,7 +12,7 @@ Elements are resized with FluidGrid:
 
 Examples
 -------
-Run `test/co.j6mes.example.UITest'
+Run `test/co.j6mes.ui.fluidgrid.example.UITest'
 
 Quick Start
 -------
@@ -26,3 +26,8 @@ Extensions
 Drag and Drop  (co.j6mes.ui.fluidgrid.extension.DragAndDrop)
 
 Single Item Selection (co.j6mes.ui.fluidgrid.extension.Selection)
+
+
+License
+-------
+Apache 2.0 [http://www.apache.org/licenses/LICENSE-2.0]
