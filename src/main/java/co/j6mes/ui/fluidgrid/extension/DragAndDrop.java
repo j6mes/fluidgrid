@@ -22,7 +22,7 @@ public class DragAndDrop implements Extension {
     PreviewComponent preview = null;
     ExtensionManager host;
 
-
+    Node sourceDD = null;
 
 
     @Override
@@ -35,7 +35,10 @@ public class DragAndDrop implements Extension {
                 if(preview !=null) {
                     preview.hide();
                 }
-                ((Node)event.getGestureSource()).getStyleClass().remove("drag-launch");
+
+                if(sourceDD != null) {
+                    sourceDD.getStyleClass().removeAll("drag-launch");
+                }
             }
         });
 
@@ -45,7 +48,11 @@ public class DragAndDrop implements Extension {
                 if(preview !=null) {
                     preview.show();
                 }
-                ((Node)event.getGestureSource()).getStyleClass().add("drag-launch");
+
+                if(sourceDD != null) {
+                    sourceDD.getStyleClass().add("drag-launch");
+                }
+
             }
         });
 
@@ -54,6 +61,15 @@ public class DragAndDrop implements Extension {
             @Override
             public void handle(MouseEvent event) {
                 tthis.handleMouseDragged(event);
+            }
+        });
+
+        events.addHandleMouseDragReleased(new EventHandler<MouseDragEvent>() {
+            @Override
+            public void handle(MouseDragEvent event) {
+                if(sourceDD != null) {
+                    sourceDD.getStyleClass().removeAll("drag-launch");
+                }
             }
         });
     }
@@ -88,12 +104,13 @@ public class DragAndDrop implements Extension {
         preview = new PreviewComponent((Region) event.getSource());
 
 
+        sourceDD = (Node) event.getSource();
         ((Node)event.getSource()).getStyleClass().add("drag-launch");
     }
 
     @Override
     public void handleDragOver(DragEvent event) {
-
+        System.out.println("Drag over");
     }
 
     @Override
@@ -103,33 +120,30 @@ public class DragAndDrop implements Extension {
 
     @Override
     public void handleDragExited(DragEvent event) {
-        ((Node)event.getGestureTarget()).getStyleClass().remove("drag-over");
+
     }
 
     @Override
     public void handleDragEntered(DragEvent event) {
 
-        ((Node)event.getGestureTarget()).getStyleClass().add("drag-over");
     }
 
     @Override
     public void handleMouseDragExited(MouseDragEvent event) {
-
     }
 
     @Override
     public void handleMouseDragEntered(MouseDragEvent event) {
+
     }
 
     @Override
     public void handleDragDropped(DragEvent event) {
-        ((Node)event.getSource()).getStyleClass().remove("drag-launch");
     }
 
     @Override
     public void handleDragDone(DragEvent event) {
-        ((Node)event.getSource()).getStyleClass().remove("drag-launch");
-        ((Node)event.getGestureSource()).getStyleClass().remove("drag-launch");
+
     }
 
     @Override
@@ -137,8 +151,9 @@ public class DragAndDrop implements Extension {
         Region source = (Region) event.getGestureSource();
         Region target = (Region) endRegion;
 
+        sourceDD = null;
 
-        source.getStyleClass().remove("drag-launch");
+        source.getStyleClass().removeAll("drag-launch");
 
         if(source.equals(target)) {
             if(preview != null) {

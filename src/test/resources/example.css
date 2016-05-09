@@ -7,6 +7,7 @@
 .drag-over {
     -fx-background-color: cyan;
     -fx-opacity: 0.5;
+    -fx-border-color: #333333; -fx-border-width: 3px 0 0 0; -fx-border-style: solid;
 }
 
 
