@@ -19,7 +19,7 @@ public class UITest extends Application {
 
         scene.getStylesheets().add("example.css");
 
-        stage.setTitle("Gridnition Example");
+        stage.setTitle("FluidGrid Example");
         stage.setScene(scene);
         stage.show();
 

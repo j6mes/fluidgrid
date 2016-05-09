@@ -16,7 +16,7 @@ public class UITest extends Application {
 
         Scene scene = new Scene(root, 300, 275);
 
-        stage.setTitle("Gridnition Example");
+        stage.setTitle("Tiled Pane Example");
         stage.setScene(scene);
         stage.show();
 
