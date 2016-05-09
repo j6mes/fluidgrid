@@ -3,3 +3,14 @@
     -fx-border-color: red;
     -fx-border-width: 2px;
 }
+
+.drag-over {
+    -fx-background-color: cyan;
+    -fx-opacity: 0.5;
+}
+
+
+.drag-launch {
+    -fx-background-color: magenta;
+    -fx-opacity: 0.5;
+}

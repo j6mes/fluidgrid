@@ -35,6 +35,7 @@ public class DragAndDrop implements Extension {
                 if(preview !=null) {
                     preview.hide();
                 }
+                ((Node)event.getGestureSource()).getStyleClass().remove("drag-launch");
             }
         });
 
@@ -44,6 +45,7 @@ public class DragAndDrop implements Extension {
                 if(preview !=null) {
                     preview.show();
                 }
+                ((Node)event.getGestureSource()).getStyleClass().add("drag-launch");
             }
         });
 
@@ -86,8 +88,7 @@ public class DragAndDrop implements Extension {
         preview = new PreviewComponent((Region) event.getSource());
 
 
-
-
+        ((Node)event.getSource()).getStyleClass().add("drag-launch");
     }
 
     @Override
@@ -102,14 +103,13 @@ public class DragAndDrop implements Extension {
 
     @Override
     public void handleDragExited(DragEvent event) {
-
+        ((Node)event.getGestureTarget()).getStyleClass().remove("drag-over");
     }
 
     @Override
     public void handleDragEntered(DragEvent event) {
-        if(preview != null) {
-            preview.show();
-        }
+
+        ((Node)event.getGestureTarget()).getStyleClass().add("drag-over");
     }
 
     @Override
@@ -119,26 +119,28 @@ public class DragAndDrop implements Extension {
 
     @Override
     public void handleMouseDragEntered(MouseDragEvent event) {
-
     }
 
     @Override
     public void handleDragDropped(DragEvent event) {
-
-        //int indexOfDropTarget = children.getChildren().indexOf(l);
-       //
-        // rotateNodes(children, indexOfDraggingNode, indexOfDropTarget);
-        event.consume();
+        ((Node)event.getSource()).getStyleClass().remove("drag-launch");
     }
 
     @Override
     public void handleDragDone(DragEvent event) {
-        System.out.println("Drag done");
+        ((Node)event.getSource()).getStyleClass().remove("drag-launch");
+        ((Node)event.getGestureSource()).getStyleClass().remove("drag-launch");
     }
 
     @Override
     public void handleMouseDragReleased(Node endRegion, MouseDragEvent event) {
-        if(endRegion.equals(event.getGestureSource())) {
+        Region source = (Region) event.getGestureSource();
+        Region target = (Region) endRegion;
+
+
+        source.getStyleClass().remove("drag-launch");
+
+        if(source.equals(target)) {
             if(preview != null) {
                 preview.close();
             }
@@ -151,8 +153,8 @@ public class DragAndDrop implements Extension {
             return;
         }
 
-        Region source = (Region) event.getGestureSource();
-        Region target = (Region) endRegion;
+
+
 
         if(host.getObjects().indexOf(target) > host.getObjects().indexOf(source)) {
 
