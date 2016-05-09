@@ -3,6 +3,10 @@ package co.j6mes.ui.fluidgrid;
 import co.j6mes.ui.fluidgrid.extension.Extension;
 import co.j6mes.ui.fluidgrid.extension.ExtensionManager;
 import co.j6mes.ui.fluidgrid.extension.Selection;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -21,12 +25,52 @@ public class MultiObjectPane extends VBox implements ExtensionManager,MultiEvent
     private List<Region> objects = new ArrayList<>();
     private List<Extension> extensions = new ArrayList<>();
 
-    private int transitionsize = 340;
+    private IntegerProperty transitionSize = new SimpleIntegerProperty(340);
+    private IntegerProperty maxInline = new SimpleIntegerProperty(10);
+
+    public final int getMaxInline() {
+        return maxInline.get();
+    }
+
+    public final void setMaxInline(int value) {
+        maxInline.set(value);
+    }
+
+    public IntegerProperty maxInlineProperty() {
+        return maxInline;
+    }
+
+    public final int getTransitionSize() {
+        return transitionSize.get();
+    }
+
+    public final void setTransitionSize(int value) {
+        transitionSize.set(value);
+    }
+
+    public IntegerProperty transitionSizeProperty() {
+        return transitionSize;
+    }
+
 
     public MultiObjectPane() {
         this.setFillWidth(true);
         this.setCenterShape(true);
         this.registerHost(this,this);
+
+        transitionSize.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                redraw();
+            }
+        });
+
+        maxInline.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                redraw();
+            }
+        });
     }
 
     public synchronized void addObject(Region object) {
@@ -278,7 +322,7 @@ public class MultiObjectPane extends VBox implements ExtensionManager,MultiEvent
 
 
     private void redraw() {
-        System.out.println("Redraw");
+        //System.out.println("Redraw");
         int done = 0;
         HBox currHBox = new HBox();
 
@@ -304,12 +348,12 @@ public class MultiObjectPane extends VBox implements ExtensionManager,MultiEvent
 
 
     private int getNumPerRow() {
-        for (int i = 1; i<10; i++) {
-            if(this.getWidth() < i*transitionsize) {
+        for (int i = 1; i<maxInline.get(); i++) {
+            if(this.getWidth() < i* transitionSize.get()) {
                 return i;
             }
         }
-        return 10;
+        return maxInline.get();
     }
 
     @Override
