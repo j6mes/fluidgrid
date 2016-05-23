@@ -1,14 +1,68 @@
 group 'co.j6mes.ui'
-version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
-
-sourceCompatibility = 1.5
+apply plugin: 'maven-publish'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Service Registration Framework',
+                'Implementation-Version': version,
+                'Built-By': System.getProperty('user.name'),
+                'Built-Date': new Date(),
+                'Built-JDK': System.getProperty('java.version'),
+                'Built-Gradle': gradle.gradleVersion,
+                'Main-Class': 'com.evergreen.dbc.DBCAppMain'
+    }
+}
+
+
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+
+artifacts {
+    archives sourcesJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            Artifact sourcesJar
+
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('name', 'FluidGrid')
+                root.appendNode('description', 'FluidGrid')
+                root.appendNode('url', 'https://github.com/j6mes/fluidgrid')
+                root.appendNode('inceptionYear', '2016')
+
+                def scm = root.appendNode('scm')
+                scm.appendNode('url', 'https://github.com/j6mes/fluidgrid')
+                scm.appendNode('connection', 'scm:https://j6mes@github.com/j6mes/fluidgrid')
+                scm.appendNode('developerConnection', 'scm:git://github.com/j6mes/fluidgrid')
+
+                def license = root.appendNode('licenses').appendNode('license')
+                license.appendNode('name', 'The Apache Software License, Version 2.0')
+                license.appendNode('url', 'http://www.apache.org/licenses/LICENSE-2.0.txt')
+                license.appendNode('distribution', 'repo')
+
+                def developers = root.appendNode('developers')
+                def j6mes = developers.appendNode('developer')
+                j6mes.appendNode('id', 'j6mes')
+                j6mes.appendNode('name', 'James Thorne')
+                j6mes.appendNode('email', 'james@jthorne.co.uk')
+            }
+        }
+    }
 }
