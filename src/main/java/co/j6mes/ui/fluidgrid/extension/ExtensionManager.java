@@ -1,10 +1,6 @@
 package co.j6mes.ui.fluidgrid.extension;
 
-import javafx.scene.Node;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 
 import java.util.List;
@@ -15,7 +11,8 @@ import java.util.List;
 public interface ExtensionManager {
     List<Region> getObjects();
     void update();
-
-
+    void addObject(ImageView object);
+    void addObject(Region object);
+    void clearObjects();
 
 }

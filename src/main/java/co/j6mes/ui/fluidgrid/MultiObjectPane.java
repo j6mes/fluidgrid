@@ -73,12 +73,19 @@ public class MultiObjectPane extends VBox implements ExtensionManager,MultiEvent
         });
     }
 
+    @Override
     public synchronized void addObject(Region object) {
         objects.add(object);
         layoutChildren();
         register(object);
     }
 
+    @Override
+    public void clearObjects() {
+        objects.clear();
+    }
+
+    @Override
     public synchronized void addObject(ImageView object) {
         Pane p = new Pane(object);
         register(p);

@@ -13,13 +13,12 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Implementation-Title': 'Service Registration Framework',
+        attributes 'Implementation-Title': 'Fluidgrid Grid View',
                 'Implementation-Version': version,
                 'Built-By': System.getProperty('user.name'),
                 'Built-Date': new Date(),
                 'Built-JDK': System.getProperty('java.version'),
-                'Built-Gradle': gradle.gradleVersion,
-                'Main-Class': 'com.evergreen.dbc.DBCAppMain'
+                'Built-Gradle': gradle.gradleVersion
     }
 }
 
