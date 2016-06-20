@@ -25,6 +25,14 @@ public class DragAndDrop implements Extension {
     Node sourceDD = null;
     Node overDD = null;
 
+    public List<ActionCompletedListener> acls = new ArrayList<>();
+
+    public void addDragDropDoneListener(ActionCompletedListener acl) {
+
+        acls.add(acl);
+    }
+
+
 
     @Override
     public void registerHost(ExtensionManager exm, MultiEventHandle events) {
@@ -81,6 +89,10 @@ public class DragAndDrop implements Extension {
 
                 if(overDD != null) {
                     overDD.getStyleClass().removeAll("drag-over");
+                }
+
+                for(ActionCompletedListener acl : acls ){
+                    acl.update();
                 }
             }
         });
