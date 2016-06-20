@@ -91,9 +91,7 @@ public class DragAndDrop implements Extension {
                     overDD.getStyleClass().removeAll("drag-over");
                 }
 
-                for(ActionCompletedListener acl : acls ){
-                    acl.update();
-                }
+
             }
         });
     }
@@ -217,6 +215,9 @@ public class DragAndDrop implements Extension {
 
         host.update();
 
+        for(ActionCompletedListener acl : acls ){
+            acl.update();
+        }
     }
 
     @Override
